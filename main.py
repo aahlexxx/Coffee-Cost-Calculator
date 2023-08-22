@@ -43,3 +43,4 @@ def calculate():
 if st.button("Calculate"):
     productioncost = calculate()
     st.write("Production Cost: ", productioncost)
+    st.write("Post Production Cost: ", productioncost)
