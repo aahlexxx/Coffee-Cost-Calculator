@@ -28,7 +28,26 @@ if coffee_type == "Fresh":
   herbicideqty = st.number_input(label="Enter the number of kilos of Herbicide used: ", min_value=0.00, step=0.05)
   pesticide = st.number_input(label="Enter the cost of Pesticide per kilogram: ", min_value=0.00, step=0.05)
   pesticideqty = st.number_input(label="Enter the number of kilos of Pesticide used: ", min_value=0.00, step=0.05)
-  st.header("Post Production Costs:")
+  
+  st.header("Labor Costs:")
+  pruning = st.radio("Did you incur any labor costs for Pruning?:",
+                       ("Yes", "No"))
+  fertilizing = st.radio("Did you incur any labor costs for Fertilizing?:",
+                       ("Yes", "No"))
+  spraying = st.radio("Did you incur any labor costs for Spraying?:",
+                       ("Yes", "No"))
+  harvesting = st.radio("Did you incur any labor costs for Harvesting?:",
+                       ("Yes", "No"))
+  rejuvenation = st.radio("Did you incur any labor costs for Rejuvenation?:",
+                       ("Yes", "No"))
+  weeding = st.radio("Did you incur any labor costs for Weeding?:",
+                       ("Yes", "No"))
+
+  st.header("Other Costs:")
+  transportation = st.radio("Did you incur any labor costs for Transportation?:",
+                       ("Yes", "No"))
+  other st.number_input(label="Enter the amount you spent for other costs: ", min_value=0.00, step=0.05)
+  
 
 def calculate():
     productioncost = (
