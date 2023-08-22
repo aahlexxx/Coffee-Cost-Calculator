@@ -50,7 +50,7 @@ def calculate():
         herbicide * herbicide_qty +
         pesticide * pesticide_qty
     )
-    labor_cost = 0  # Initialize labor_cost
+    labor_cost = 0
 
     return input_cost, labor_cost
 
