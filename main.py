@@ -33,6 +33,8 @@ elif coffee_variety == "Excelsa":
     if pruning == "Yes":
       pruning = 1
     fertilizing = st.radio("Did you incur any labor costs for Fertilizing?:", ("Yes", "No"))
+    if fertilizing == "Yes":
+      pruning = 1
     spraying = st.radio("Did you incur any labor costs for Spraying?:", ("Yes", "No"))
     harvesting = st.radio("Did you incur any labor costs for Harvesting?:", ("Yes", "No"))
     rejuvenation = st.radio("Did you incur any labor costs for Rejuvenation?:", ("Yes", "No"))
