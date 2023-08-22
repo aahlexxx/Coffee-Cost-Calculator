@@ -52,19 +52,6 @@ def calculate():
     )
     labor_cost = 0  # Initialize labor_cost
 
-    if pruning == "Yes":
-        labor_cost += 1  # Adjust labor cost based on activities
-    if fertilizing == "Yes":
-        labor_cost += 2
-    if spraying == "Yes":
-        labor_cost += 3
-    if harvesting == "Yes":
-        labor_cost += 4
-    if rejuvenation == "Yes":
-        labor_cost += 5
-    if weeding == "Yes":
-        labor_cost += 6
-
     return input_cost, labor_cost
 
 
