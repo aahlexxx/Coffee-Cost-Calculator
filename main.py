@@ -16,7 +16,6 @@ elif coffee_variety == "Arabica":
 elif coffee_variety == "Excelsa":
     h = 3
 
-if coffee_type == "Fresh":
     st.header("Input Costs:")
     fertilizer1 = st.number_input(label="Enter the cost of Fertilizer 1 per kilogram: ", min_value=0.00, step=0.05)
     fertilizer1qty = st.number_input(label="Enter the number of kilos of Fertilizer 1 used: ", min_value=0.00, step=0.05)
@@ -31,12 +30,19 @@ if coffee_type == "Fresh":
 
     st.header("Labor Costs:")
     pruning = st.radio("Did you incur any labor costs for Pruning?:", ("Yes", "No"))
+    if pruning == "Yes":
+      pruning = 1
     fertilizing = st.radio("Did you incur any labor costs for Fertilizing?:", ("Yes", "No"))
     spraying = st.radio("Did you incur any labor costs for Spraying?:", ("Yes", "No"))
     harvesting = st.radio("Did you incur any labor costs for Harvesting?:", ("Yes", "No"))
     rejuvenation = st.radio("Did you incur any labor costs for Rejuvenation?:", ("Yes", "No"))
     weeding = st.radio("Did you incur any labor costs for Weeding?:", ("Yes", "No"))
 
+    st.header("Other Costs:")
+    transportation = st.radio("Did you incur any labor costs for Transportation?:", ("Yes", "No"))
+    other_cost = st.number_input(label="Enter the amount you spent for other costs: ", min_value=0.00, step=0.05)
+
+if coffee_type == "Green Coffee Beans" or "Both":
     st.header("Other Costs:")
     transportation = st.radio("Did you incur any labor costs for Transportation?:", ("Yes", "No"))
     other_cost = st.number_input(label="Enter the amount you spent for other costs: ", min_value=0.00, step=0.05)
@@ -50,7 +56,9 @@ def calculate():
         herbicide * herbicide_qty +
         pesticide * pesticide_qty
     )
-    labor_cost = 0
+    labor_cost = (
+        pruning + fertilizing + spraying + harvesting + rejuvenation + weeding
+    )
 
     return input_cost, labor_cost
 
