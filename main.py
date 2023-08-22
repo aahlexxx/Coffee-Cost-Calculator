@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.title("Coffee Production Calculator")
+st.title("Coffee Production Cost Calculator")
 st.write("---")
 
 coffee_trees = st.number_input(label="How many coffee trees are there in your farm?", min_value=1, step=1)
@@ -57,7 +57,15 @@ def calculate():
         herbicide * herbicideqty +
         pesticide * pesticideqty
     )
-    return inputcost
+    laborcost = (
+        fertilizer1 * fertilizer1qty +
+        fertilizer2 * fertilizer2qty +
+        organicfertilizer * organicfertilizerqty +
+        herbicide * herbicideqty +
+        pesticide * pesticideqty
+    )
+    return inputcost, laborcost
+
 
 if st.button("Calculate"):
     productioncost = calculate()
