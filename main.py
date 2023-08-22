@@ -17,7 +17,7 @@ elif coffee_variety == "Excelsa":
     h = 3
 
 if coffee_type == "Fresh":
-  st.header("Production Costs:")
+  st.header("Input Costs:")
   fertilizer1 = st.number_input(label="Enter the cost of Fertilizer 1 per kilogram: ", min_value=0.00, step=0.05)
   fertilizer1qty = st.number_input(label="Enter the number of kilos of Fertilizer 1 used: ", min_value=0.00, step=0.05)
   fertilizer2 = st.number_input(label="Enter the cost of Fertilizer 2 per kilogram: ", min_value=0.00, step=0.05)
@@ -50,16 +50,18 @@ if coffee_type == "Fresh":
   
 
 def calculate():
-    productioncost = (
+    inputcost = (
         fertilizer1 * fertilizer1qty +
         fertilizer2 * fertilizer2qty +
         organicfertilizer * organicfertilizerqty +
         herbicide * herbicideqty +
         pesticide * pesticideqty
     )
-    return productioncost
+    return inputcost
 
 if st.button("Calculate"):
     productioncost = calculate()
-    st.write("Production Cost: ", productioncost)
-    st.write("Post Production Cost: ", productioncost)
+    st.write("Input Cost: ", inputcost)
+    st.write("Labor Cost: ", laborcost)
+    st.write("Other Costs: ", othercost)
+    st.write("Post Production Cost: ", postproductioncost)
