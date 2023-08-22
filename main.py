@@ -16,19 +16,19 @@ elif coffee_variety == "Arabica":
 elif coffee_variety == "Excelsa":
     h = 3
 
-st.header("Production Costs:")
-fertilizer1 = st.number_input(label="Enter the cost of Fertilizer 1 per kilogram: ", min_value=0.00, step=0.05)
-fertilizer1qty = st.number_input(label="Enter the number of kilos of Fertilizer 1 used: ", min_value=0.00, step=0.05)
-fertilizer2 = st.number_input(label="Enter the cost of Fertilizer 2 per kilogram: ", min_value=0.00, step=0.05)
-fertilizer2qty = st.number_input(label="Enter the number of kilos of Fertilizer 2 used: ", min_value=0.00, step=0.05)
-organicfertilizer = st.number_input(label="Enter the cost of Organic Fertilizer per kilogram: ", min_value=0.00, step=0.05)
-organicfertilizerqty = st.number_input(label="Enter the number of kilos of Organic Fertilizer used: ", min_value=0.00, step=0.05)
-herbicide = st.number_input(label="Enter the cost of Herbicide per kilogram: ", min_value=0.00, step=0.05)
-herbicideqty = st.number_input(label="Enter the number of kilos of Herbicide used: ", min_value=0.00, step=0.05)
-pesticide = st.number_input(label="Enter the cost of Pesticide per kilogram: ", min_value=0.00, step=0.05)
-pesticideqty = st.number_input(label="Enter the number of kilos of Pesticide used: ", min_value=0.00, step=0.05)
-
-st.header("Post Production Costs:")
+if coffee_type == "Fresh":
+  st.header("Production Costs:")
+  fertilizer1 = st.number_input(label="Enter the cost of Fertilizer 1 per kilogram: ", min_value=0.00, step=0.05)
+  fertilizer1qty = st.number_input(label="Enter the number of kilos of Fertilizer 1 used: ", min_value=0.00, step=0.05)
+  fertilizer2 = st.number_input(label="Enter the cost of Fertilizer 2 per kilogram: ", min_value=0.00, step=0.05)
+  fertilizer2qty = st.number_input(label="Enter the number of kilos of Fertilizer 2 used: ", min_value=0.00, step=0.05)
+  organicfertilizer = st.number_input(label="Enter the cost of Organic Fertilizer per kilogram: ", min_value=0.00, step=0.05)
+  organicfertilizerqty = st.number_input(label="Enter the number of kilos of Organic Fertilizer used: ", min_value=0.00, step=0.05)
+  herbicide = st.number_input(label="Enter the cost of Herbicide per kilogram: ", min_value=0.00, step=0.05)
+  herbicideqty = st.number_input(label="Enter the number of kilos of Herbicide used: ", min_value=0.00, step=0.05)
+  pesticide = st.number_input(label="Enter the cost of Pesticide per kilogram: ", min_value=0.00, step=0.05)
+  pesticideqty = st.number_input(label="Enter the number of kilos of Pesticide used: ", min_value=0.00, step=0.05)
+  st.header("Post Production Costs:")
 
 def calculate():
     productioncost = (
