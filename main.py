@@ -46,7 +46,7 @@ if coffee_type == "Fresh":
   st.header("Other Costs:")
   transportation = st.radio("Did you incur any labor costs for Transportation?:",
                        ("Yes", "No"))
-  other st.number_input(label="Enter the amount you spent for other costs: ", min_value=0.00, step=0.05)
+  other = st.number_input(label="Enter the amount you spent for other costs: ", min_value=0.00, step=0.05)
   
 
 def calculate():
