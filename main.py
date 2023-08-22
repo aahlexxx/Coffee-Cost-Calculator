@@ -17,59 +17,60 @@ elif coffee_variety == "Excelsa":
     h = 3
 
 if coffee_type == "Fresh":
-  st.header("Input Costs:")
-  fertilizer1 = st.number_input(label="Enter the cost of Fertilizer 1 per kilogram: ", min_value=0.00, step=0.05)
-  fertilizer1qty = st.number_input(label="Enter the number of kilos of Fertilizer 1 used: ", min_value=0.00, step=0.05)
-  fertilizer2 = st.number_input(label="Enter the cost of Fertilizer 2 per kilogram: ", min_value=0.00, step=0.05)
-  fertilizer2qty = st.number_input(label="Enter the number of kilos of Fertilizer 2 used: ", min_value=0.00, step=0.05)
-  organicfertilizer = st.number_input(label="Enter the cost of Organic Fertilizer per kilogram: ", min_value=0.00, step=0.05)
-  organicfertilizerqty = st.number_input(label="Enter the number of kilos of Organic Fertilizer used: ", min_value=0.00, step=0.05)
-  herbicide = st.number_input(label="Enter the cost of Herbicide per kilogram: ", min_value=0.00, step=0.05)
-  herbicideqty = st.number_input(label="Enter the number of kilos of Herbicide used: ", min_value=0.00, step=0.05)
-  pesticide = st.number_input(label="Enter the cost of Pesticide per kilogram: ", min_value=0.00, step=0.05)
-  pesticideqty = st.number_input(label="Enter the number of kilos of Pesticide used: ", min_value=0.00, step=0.05)
-  
-  st.header("Labor Costs:")
-  pruning = st.radio("Did you incur any labor costs for Pruning?:",
-                       ("Yes", "No"))
-  fertilizing = st.radio("Did you incur any labor costs for Fertilizing?:",
-                       ("Yes", "No"))
-  spraying = st.radio("Did you incur any labor costs for Spraying?:",
-                       ("Yes", "No"))
-  harvesting = st.radio("Did you incur any labor costs for Harvesting?:",
-                       ("Yes", "No"))
-  rejuvenation = st.radio("Did you incur any labor costs for Rejuvenation?:",
-                       ("Yes", "No"))
-  weeding = st.radio("Did you incur any labor costs for Weeding?:",
-                       ("Yes", "No"))
+    st.header("Input Costs:")
+    fertilizer1 = st.number_input(label="Enter the cost of Fertilizer 1 per kilogram: ", min_value=0.00, step=0.05)
+    fertilizer1qty = st.number_input(label="Enter the number of kilos of Fertilizer 1 used: ", min_value=0.00, step=0.05)
+    fertilizer2 = st.number_input(label="Enter the cost of Fertilizer 2 per kilogram: ", min_value=0.00, step=0.05)
+    fertilizer2qty = st.number_input(label="Enter the number of kilos of Fertilizer 2 used: ", min_value=0.00, step=0.05)
+    organic_fertilizer = st.number_input(label="Enter the cost of Organic Fertilizer per kilogram: ", min_value=0.00, step=0.05)
+    organic_fertilizer_qty = st.number_input(label="Enter the number of kilos of Organic Fertilizer used: ", min_value=0.00, step=0.05)
+    herbicide = st.number_input(label="Enter the cost of Herbicide per kilogram: ", min_value=0.00, step=0.05)
+    herbicide_qty = st.number_input(label="Enter the number of kilos of Herbicide used: ", min_value=0.00, step=0.05)
+    pesticide = st.number_input(label="Enter the cost of Pesticide per kilogram: ", min_value=0.00, step=0.05)
+    pesticide_qty = st.number_input(label="Enter the number of kilos of Pesticide used: ", min_value=0.00, step=0.05)
 
-  st.header("Other Costs:")
-  transportation = st.radio("Did you incur any labor costs for Transportation?:",
-                       ("Yes", "No"))
-  other = st.number_input(label="Enter the amount you spent for other costs: ", min_value=0.00, step=0.05)
-  
+    st.header("Labor Costs:")
+    pruning = st.radio("Did you incur any labor costs for Pruning?:", ("Yes", "No"))
+    fertilizing = st.radio("Did you incur any labor costs for Fertilizing?:", ("Yes", "No"))
+    spraying = st.radio("Did you incur any labor costs for Spraying?:", ("Yes", "No"))
+    harvesting = st.radio("Did you incur any labor costs for Harvesting?:", ("Yes", "No"))
+    rejuvenation = st.radio("Did you incur any labor costs for Rejuvenation?:", ("Yes", "No"))
+    weeding = st.radio("Did you incur any labor costs for Weeding?:", ("Yes", "No"))
+
+    st.header("Other Costs:")
+    transportation = st.radio("Did you incur any labor costs for Transportation?:", ("Yes", "No"))
+    other_cost = st.number_input(label="Enter the amount you spent for other costs: ", min_value=0.00, step=0.05)
+
 
 def calculate():
-    inputcost = (
+    input_cost = (
         fertilizer1 * fertilizer1qty +
         fertilizer2 * fertilizer2qty +
-        organicfertilizer * organicfertilizerqty +
-        herbicide * herbicideqty +
-        pesticide * pesticideqty
+        organic_fertilizer * organic_fertilizer_qty +
+        herbicide * herbicide_qty +
+        pesticide * pesticide_qty
     )
-    laborcost = (
-        fertilizer1 * fertilizer1qty +
-        fertilizer2 * fertilizer2qty +
-        organicfertilizer * organicfertilizerqty +
-        herbicide * herbicideqty +
-        pesticide * pesticideqty
-    )
-    return inputcost, laborcost
+    labor_cost = 0  # Initialize labor_cost
+
+    if pruning == "Yes":
+        labor_cost += 1  # Adjust labor cost based on activities
+    if fertilizing == "Yes":
+        labor_cost += 2
+    if spraying == "Yes":
+        labor_cost += 3
+    if harvesting == "Yes":
+        labor_cost += 4
+    if rejuvenation == "Yes":
+        labor_cost += 5
+    if weeding == "Yes":
+        labor_cost += 6
+
+    return input_cost, labor_cost
 
 
 if st.button("Calculate"):
-    productioncost = calculate()
-    st.write("Input Cost: ", inputcost)
-    st.write("Labor Cost: ", laborcost)
-    st.write("Other Costs: ", othercost)
-    st.write("Post Production Cost: ", postproductioncost)
+    input_cost, labor_cost = calculate()
+    st.write("Input Cost: ", input_cost)
+    st.write("Labor Cost: ", labor_cost)
+    st.write("Other Costs: ", other_cost)
+    st.write("Total Cost: ", input_cost + labor_cost + other_cost)
