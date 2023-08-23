@@ -5,6 +5,7 @@ st.write("---")
 
 #initialize values
 amount_gcb = 0
+amount_fc = 0
 hauling = 0
 floating = 0
 depulping = 0
@@ -12,6 +13,12 @@ drying = 0
 dehulling = 0
 sorting = 0
 storage = 0
+pruning = 0
+fertilizing = 0
+spraying = 0
+harvesting = 0
+rejuvenation = 0
+weeding = 0
 
 coffee_trees = st.number_input(label="How many coffee trees are there in your farm?", min_value=1, step=1)
 coffee_variety = st.radio("Select the variety of your Coffee:",
@@ -194,9 +201,11 @@ st.header("Labor Costs:")
 pruning = st.radio("Did you incur any labor costs for Pruning?:", ("Yes", "No"))
 if pruning == "Yes":
     pruning = 1
+else pruning = 0
 fertilizing = st.radio("Did you incur any labor costs for Fertilizing?:", ("Yes", "No"))
 if fertilizing == "Yes":
     fertilizing = 1
+else fertilizing = 0
 spraying = st.radio("Did you incur any labor costs for Spraying?:", ("Yes", "No"))
 if spraying == "Yes":
     spraying = 1
