@@ -199,13 +199,9 @@ pesticide_qty = st.number_input(label="Enter the number of kilos of Pesticide us
 
 st.header("Labor Costs:")
 pruning = st.radio("Did you incur any labor costs for Pruning?:", ("Yes", "No"))
-if pruning == "Yes":
-    pruning = 1
-else pruning = 0
+pruning = 1 if pruning == "Yes" else 0
 fertilizing = st.radio("Did you incur any labor costs for Fertilizing?:", ("Yes", "No"))
-if fertilizing == "Yes":
-    fertilizing = 1
-else fertilizing = 0
+fertilizing = 1 if fertilizing == "Yes" else 0
 spraying = st.radio("Did you incur any labor costs for Spraying?:", ("Yes", "No"))
 if spraying == "Yes":
     spraying = 1
