@@ -203,46 +203,34 @@ pruning = 1 if pruning == "Yes" else 0
 fertilizing = st.radio("Did you incur any labor costs for Fertilizing?:", ("Yes", "No"))
 fertilizing = 1 if fertilizing == "Yes" else 0
 spraying = st.radio("Did you incur any labor costs for Spraying?:", ("Yes", "No"))
-if spraying == "Yes":
-    spraying = 1
+spraying = 1 if spraying == "Yes" else 0
 harvesting = st.radio("Did you incur any labor costs for Harvesting?:", ("Yes", "No"))
-if harvesting == "Yes":
-    harvesting = 1
+harvesting = 1 if harvesting == "Yes" else 0
 rejuvenation = st.radio("Did you incur any labor costs for Rejuvenation?:", ("Yes", "No"))
-if rejuvenation == "Yes":
-    rejuvenation = 1
+rejuvenation = 1 if rejuvenation == "Yes" else 0
 weeding = st.radio("Did you incur any labor costs for Weeding?:", ("Yes", "No"))
-if weeding == "Yes":
-    weeding = 1
+weeding = 1 if weeding == "Yes" else 0
 
 if coffee_type == "Green Coffee Beans" or coffee_type == "Both":
     st.header("Post Production Cost:")
     hauling = st.radio("Did you incur any labor costs for Hauling?:", ("Yes", "No"))
-    if hauling == "Yes":
-        hauling = 1
+    hauling = 1 if hauling == "Yes" else 0
     floating = st.radio("Did you incur any labor costs for Floating?:", ("Yes", "No"))
-    if floating == "Yes":
-        floating = 1
+    floating = 1 if floating == "Yes" else 0
     depulping = st.radio("Did you incur any labor costs for Deulping?:", ("Yes", "No"))
-    if depulping == "Yes":
-        depulping = 1
+    depulping = 1 if depulping == "Yes" else 0
     drying = st.radio("Did you incur any labor costs for Drying?:", ("Yes", "No"))
-    if drying == "Yes":
-        drying = 1
+    drying = 1 if drying == "Yes" else 0
     dehulling = st.radio("Did you incur any labor costs for Dehulling?:", ("Yes", "No"))
-    if dehulling == "Yes":
-        dehulling = 1
+    dehulling = 1 if dehulling == "Yes" else 0
     sorting = st.radio("Did you incur any labor costs for Sorting?:", ("Yes", "No"))
-    if sorting == "Yes":
-        sorting = 1
+    sorting = 1 if sorting == "Yes" else 0
     storage = st.radio("Did you incur any labor costs for Storage?:", ("Yes", "No"))
-    if storage == "Yes":
-        storage = 1
+    storage = 1 if storage == "Yes" else 0
 
 st.header("Other Costs:")
 transport = st.radio("Did you incur any labor costs for Transportation?:", ("Yes", "No"))
-if transport == "Yes":
-    transport = 1
+transport = 1 if transport == "Yes" else 0
 other_cost = st.number_input(label="Enter the amount you spent for other costs: ", min_value=0.00, step=0.05)
 
 
