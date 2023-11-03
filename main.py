@@ -3,6 +3,12 @@ import streamlit as st
 st.title("Coffee Production Cost Calculator")
 st.write("---")
 
+transpo_postprod_yesno = 0
+drying_postprod_yesno = 0
+drying_postprod_yesno = 0
+dehulling_postprod_yesno = 0
+sorting_postprod_yesno = 0
+depulping_postprod_yesno = 0
 
 hectares = st.number_input("How many hectares of your land are planted with coffee trees?", min_value=0.00, step=1.0)
 bearing = st.number_input("How many of the coffee trees are bearing?", min_value=0.00, step=100.00)
