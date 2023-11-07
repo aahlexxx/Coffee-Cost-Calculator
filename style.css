@@ -55,6 +55,19 @@ p {
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
+button {
+    padding: 10px 20px;
+    background-color: #0f0f0f; /* Use provided primaryColor for button background */
+    color: #ffffff; /* White text color for contrast */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-transform: uppercase; /* Uppercase text for emphasis */
+    font-weight: bold; /* Bold text for emphasis */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
 button:hover {
     background-color: #ff3333; /* Slightly darker red on hover */
 }
