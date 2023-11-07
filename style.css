@@ -8,7 +8,7 @@ body {
     padding: 0;
 }
 
-container {
+.container {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
@@ -37,9 +37,31 @@ p {
     color: #ffffff; /* White text color */
 }
 
-number_input{
+.number_input{
     font-size: 14px;
     color: #ffffff; /* White heading */
+}
+
+.button {
+    padding: 10px 20px;
+    background-color: #0f0f0f; /* Use provided primaryColor for button background */
+    color: #ffffff; /* White text color for contrast */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-transform: uppercase; /* Uppercase text for emphasis */
+    font-weight: bold; /* Bold text for emphasis */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.button:hover {
+    background-color: #ff3333; /* Slightly darker red on hover */
+}
+
+/* Add a subtle transition for smoother hover effect */
+.button:hover {
+    transition: background-color 0.3s;
 }
 
 /* Add more specific targeting for form elements */
@@ -64,28 +86,6 @@ table td {
 table th {
     background-color: #ef0b0b; /* Use provided primaryColor for table header background */
     color: #ffffff; /* White text color */
-}
-
-button {
-    padding: 10px 20px;
-    background-color: black; /* Change background color to white */
-    color: black; /* Change text color to black */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    text-transform: uppercase; /* Uppercase text for emphasis */
-    font-weight: bold; /* Bold text for emphasis */
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-}
-
-button:hover {
-    background-color: #ff3333; /* Slightly darker red on hover */
-}
-
-/* Add a subtle transition for smoother hover effect */
-button:hover {
-    transition: background-color 0.3s;
 }
 
 /* Add more specific targeting for Streamlit widgets */
@@ -115,7 +115,7 @@ div[data-widget="stRadio"] {
 }
 
 /* Container Style */
-container-style {
+.container-style {
     padding: 20px;
     background-color: #f0f0f0;
 }
