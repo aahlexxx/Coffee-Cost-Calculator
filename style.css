@@ -22,8 +22,8 @@ p {
 
 .button {
     padding: 10px 20px;
-    background-color: #0f0f0f; /* Use provided primaryColor for button background */
-    color: #ffffff; /* White text color for contrast */
+    background-color: #006400; /* Use provided primaryColor for button background */
+    color: #006400; /* White text color for contrast */
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -34,5 +34,5 @@ p {
 }
 
 button:hover {
-    background-color: #ff3333; /* Slightly darker red on hover */
+    background-color: #006400; /* Slightly darker red on hover */
 }
