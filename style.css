@@ -1,1 +1,38 @@
+/* style.css */
+body {
+    font-family: 'Playfair Display', sans-serif;
+    background: linear-gradient(135deg, #ffffff, #ffffff); /* Set the same background color for both */
+    font-size: 12px;
+    color: #ffffff; /* White text color */
+    margin: 0;
+    padding: 0;
+}
 
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff; /* Use provided background color */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+h1 {
+    font-size: 47px;
+    color: #ffffff; /* White heading */
+}
+
+h2 {
+    font-size: 24px;
+    color: #ffffff; /* White heading */
+}
+
+h3 {
+    font-size: 20px;
+    color: #ffffff; /* White heading */
+}
+
+p {
+    font-size: 14px;
+    color: #ffffff; /* White text color */
+}
