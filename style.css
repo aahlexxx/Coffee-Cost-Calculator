@@ -44,10 +44,11 @@ p {
 
 .button {
     padding: 10px 20px;
-    background-color: #0f0f0f; /* Use provided primaryColor for button background */
+    background-color: #ffffff; /* Use provided primaryColor for button background */
     color: #ffffff; /* White text color for contrast */
     border: none;
     border-radius: 5px;
+    cursor: pointer;
     transition: background-color 0.3s;
     text-transform: uppercase; /* Uppercase text for emphasis */
     font-weight: bold; /* Bold text for emphasis */
