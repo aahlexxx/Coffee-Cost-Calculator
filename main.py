@@ -1,5 +1,32 @@
+import base64
+import streamlit as st
 import streamlit as st
 
+with open('style.css') as f:
+    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+@st.experimental_memo
+def get_img_as_base64(file):
+    with open(file, "rb") as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+
+
+img = get_img_as_base64("coffee4.jpg")
+
+page_bg_img = f"""
+<style>
+[data-testid="stAppViewContainer"] > .main {{
+    background-image: url("data:image/png;base64,{img}");
+    background-size: cover; /* This will cover the entire container without stretching */
+    background-position: center center; /* Center the image horizontally and vertically */
+    background-repeat: no-repeat; /* Prevent image from repeating */
+    height: 100vh; /* Set the height to 100% of the viewport height (full height) */
+}}
+</style>
+"""
+
+st.markdown(page_bg_img, unsafe_allow_html=True)
 st.title("Coffee Production Cost Calculator")
 st.write("---")
 
@@ -10,7 +37,7 @@ dehulling_postprod_yesno = 0
 sorting_postprod_yesno = 0
 depulping_postprod_yesno = 0
 
-hectares = st.number_input("How many hectares of your land are planted with coffee trees?", min_value=0.00, step=1.0)
+hectares = st.number_input("Enter the number of hectares", min_value=0.00, step=1.0)
 bearing = st.number_input("How many of the coffee trees are bearing?", min_value=0.00, step=100.00)
 non_bearing = st.number_input("How many of the coffee trees are non-bearing?", min_value=0.00, step=100.00)
 
