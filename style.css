@@ -1,0 +1,121 @@
+/* style.css */
+body {
+    font-family: 'Playfair Display', sans-serif;
+    background: linear-gradient(135deg, #ffffff, #ffffff); /* Set the same background color for both */
+    font-size: 12px;
+    color: #ffffff; /* White text color */
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff; /* Use provided background color */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+h1 {
+    font-size: 47px;
+    color: #ffffff; /* White heading */
+}
+
+h2 {
+    font-size: 24px;
+    color: #ffffff; /* White heading */
+}
+
+h3 {
+    font-size: 20px;
+    color: #ffffff; /* White heading */
+}
+
+p {
+    font-size: 14px;
+    color: #ffffff; /* White text color */
+}
+
+.number_input{
+    font-size: 14px;
+    color: #ffffff; /* White heading */
+}
+
+.button {
+    padding: 10px 20px;
+    background-color: #ef0b0b; /* Use provided primaryColor for button background */
+    color: #ffffff; /* White text color for contrast */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-transform: uppercase; /* Uppercase text for emphasis */
+    font-weight: bold; /* Bold text for emphasis */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.button:hover {
+    background-color: #ff3333; /* Slightly darker red on hover */
+}
+
+/* Add a subtle transition for smoother hover effect */
+.button:hover {
+    transition: background-color 0.3s;
+}
+
+/* Add more specific targeting for form elements */
+div[data-widget="stRadio"] {
+    margin: 10px 0;
+}
+
+/* Improve table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ef0b0b; /* Use provided primaryColor for table border */
+}
+
+table th,
+table td {
+    border: 1px solid #ef0b0b; /* Use provided primaryColor for table border */
+    padding: 10px;
+    text-align: left;
+}
+
+table th {
+    background-color: #ef0b0b; /* Use provided primaryColor for table header background */
+    color: #ffffff; /* White text color */
+}
+
+/* Add more specific targeting for Streamlit widgets */
+div[data-widget="stNumberInput"] {
+    margin: 10px 0;
+}
+
+div[data-widget="stRadio"] {
+    margin: 10px 0;
+}
+
+/* Apply styles to specific sections */
+#section-input {
+    background-color: #ffffff; /* Use provided background color */
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#section-costs {
+    background-color: #ffffff; /* Use provided background color */
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Container Style */
+.container-style {
+    padding: 20px;
+    background-color: #f0f0f0;
+}
