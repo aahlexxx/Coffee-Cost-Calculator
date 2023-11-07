@@ -12,7 +12,7 @@ body {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #ffffff; /* Use provided background color */
+    background-color: #ff3333; /* Use provided background color */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
 }
@@ -44,7 +44,7 @@ p {
 
 .button {
     padding: 10px 20px;
-    background-color: #ffffff; /* Use provided primaryColor for button background */
+    background-color: #ff3333; /* Use provided primaryColor for button background */
     color: #ffffff; /* White text color for contrast */
     border: none;
     border-radius: 5px;
