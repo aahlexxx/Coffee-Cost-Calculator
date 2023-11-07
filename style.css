@@ -42,7 +42,7 @@ p {
     color: #ffffff; /* White heading */
 }
 
-.button {
+button {
     padding: 10px 20px;
     background-color: #0f0f0f; /* Use provided primaryColor for button background */
     color: #0f0f0f; /* White text color for contrast */
