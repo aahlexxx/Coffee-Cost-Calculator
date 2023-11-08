@@ -26,6 +26,17 @@ page_bg_img = f"""
 """
 
 st.markdown(page_bg_img, unsafe_allow_html=True)
+
+tabs_font_css = """
+<style>
+div[class*="stNumberInput"] label {
+  font-size: 26px;
+  color: green;
+}
+</style>
+"""
+st.write(tabs_font_css, unsafe_allow_html=True)
+
 st.title("Coffee Production Cost Calculator")
 st.write("---")
 
