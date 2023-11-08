@@ -36,6 +36,7 @@ dehulling_postprod_yesno = 0
 sorting_postprod_yesno = 0
 depulping_postprod_yesno = 0
 
+st.header("General Farm Information:")
 hectares = st.number_input("Enter the number of hectares", min_value=0.00, step=1.0)
 bearing = st.number_input("How many of the coffee trees are bearing?", min_value=0.00, step=100.00)
 non_bearing = st.number_input("How many of the coffee trees are non-bearing?", min_value=0.00, step=100.00)
