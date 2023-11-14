@@ -37,18 +37,19 @@ dehulling_postprod_yesno = 0
 sorting_postprod_yesno = 0
 depulping_postprod_yesno = 0
 
-st.header("General Farm Information:")
-hectares = st.number_input("Enter the number of hectares", min_value=0.00, step=1.0)
-bearing = st.number_input("How many of the coffee trees are bearing?", min_value=0.00, step=100.00)
-non_bearing = st.number_input("How many of the coffee trees are non-bearing?", min_value=0.00, step=100.00)
-
-trees = bearing + non_bearing
-tree_perhectare = trees/hectares if trees > 0 else 0
-
-coffee_type = st.radio("Select the type of Coffee you will sell:",
-                        ("Fresh Cherries", "Dried Coffee Beans", "Green Coffee Beans", "Fresh and Dried Coffee Beans", "Fresh and Green Coffee Beans", "Dried and Green Coffee Beans", "All"))
-dataset = st.radio("Please select the dataset that you will use for the cost bound",
-                        ("General - Robusta", "General - Arabica", "General - Excelsa", "Mahintana - Robusta", "Tagbina - Robusta"))
+with st.form('General'):
+	st.header("General Farm Information:")
+	hectares = st.number_input("Enter the number of hectares", min_value=0.00, step=1.0)
+	bearing = st.number_input("How many of the coffee trees are bearing?", min_value=0.00, step=100.00)
+	non_bearing = st.number_input("How many of the coffee trees are non-bearing?", min_value=0.00, step=100.00)
+	
+	trees = bearing + non_bearing
+	tree_perhectare = trees/hectares if trees > 0 else 0
+	
+	coffee_type = st.radio("Select the type of Coffee you will sell:",
+	                        ("Fresh Cherries", "Dried Coffee Beans", "Green Coffee Beans", "Fresh and Dried Coffee Beans", "Fresh and Green Coffee Beans", "Dried and Green Coffee Beans", "All"))
+	dataset = st.radio("Please select the dataset that you will use for the cost bound",
+	                        ("General - Robusta", "General - Arabica", "General - Excelsa", "Mahintana - Robusta", "Tagbina - Robusta"))
 
 if dataset == "General - Robusta":
     lb_transport = 0.5
