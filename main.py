@@ -1,10 +1,13 @@
 import base64
 import streamlit as st
 
+st.set_page_config(page_title="VCLab Coffee Production Cost Calculator", layout='wide')
+
 with open('style.css') as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
-@st.experimental_memo
+#@st.experimental_memo
+@st.cache_data
 def get_img_as_base64(file):
     with open(file, "rb") as f:
         data = f.read()
@@ -27,7 +30,9 @@ page_bg_img = f"""
 
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
-st.title("Coffee Production Cost Calculator")
+
+#st.subheader("Coffee Production Cost Calculator v8")
+st.markdown("<h2 style='text-align: center'>Coffee Production Cost Calculator</h2>", unsafe_allow_html=True)
 st.write("---")
 
 transpo_postprod_yesno = 0
@@ -37,18 +42,29 @@ dehulling_postprod_yesno = 0
 sorting_postprod_yesno = 0
 depulping_postprod_yesno = 0
 
-st.header("General Farm Information:")
-hectares = st.number_input("Enter the number of hectares", min_value=0.00, step=1.0)
-bearing = st.number_input("How many of the coffee trees are bearing?", min_value=0.00, step=100.00)
-non_bearing = st.number_input("How many of the coffee trees are non-bearing?", min_value=0.00, step=100.00)
+
+with st.expander("Coffee Farm General Information"):
+	col1, col2, col3 = st.columns(3)
+	with col1:
+		hectares = st.number_input("Number of hectares:", min_value=0.00, step=1.0)
+		bearing = st.number_input("Number of bearing trees:", min_value=0.00, step=10.00)
+		non_bearing = st.number_input("Number of non-bearing:", min_value=0.00, step=10.00)
 	
-trees = bearing + non_bearing
-tree_perhectare = trees/hectares if trees > 0 else 0
-	
-coffee_type = st.radio("Select the type of Coffee you will sell:",
-	        ("Fresh Cherries", "Dried Coffee Beans", "Green Coffee Beans", "Fresh and Dried Coffee Beans", "Fresh and Green Coffee Beans", "Dried and Green Coffee Beans", "All"))
-dataset = st.radio("Please select the dataset that you will use for the cost bound",
-	        ("General - Robusta", "General - Arabica", "General - Excelsa", "Mahintana - Robusta", "Tagbina - Robusta"))
+	trees = bearing + non_bearing
+	tree_perhectare = trees/hectares if hectares > 0 else 0
+
+	with col2:
+		st.write("Select the type of Coffee you will sell:")
+		cb1 = st.checkbox("Fresh Cherries")
+		cb2 = st.checkbox("Dried Coffee Beans")
+		cb3 = st.checkbox("Green Coffee Beans")
+		coffee_types = []
+		if cb1: coffee_types.append("Fresh Cherries")
+		if cb2: coffee_types.append("Dried Coffee Beans")
+		if cb3: coffee_types.append("Green Coffee Beans")
+
+	with col3:
+		dataset = st.radio("Please select the dataset to use for the computation:", ("General - Robusta", "General - Arabica", "General - Excelsa", "Mahintana - Robusta", "Tagbina - Robusta"))
 
 if dataset == "General - Robusta":
     lb_transport = 0.5
@@ -265,180 +281,209 @@ elif dataset == "Tagbina - Robusta":
     ub_rejuvenation = 0.00
     ub_harvesting = 1.60
 
-st.header("Input Costs:")
-st.subheader("Fertilizers")
-fert_apply = st.radio("Will you apply fertilizers?",
-					  ("Yes", "No"))
-if fert_apply == "Yes":
-	fert_application = st.radio("To which coffee trees will you apply fertilizers?",
-                            ("Bearing", "Non-bearing", "Both"))
-	if fert_application == "Bearing":
-		fert_percent = st.number_input("Percent of bearing trees to be applied with fertilizers?", min_value=0.00, max_value = 100.00, step=10.00)
-		fert_kg = st.number_input("How many kilograms of fertilizers will be used for the bearing trees?", min_value=0.00, step=10.00)
-		fert_costperkg = st.number_input("Cost per kilogram of fertilizers?", min_value=0.00, step=10.00)
-		fert_cost = (fert_kg * fert_costperkg) / ((fert_percent/100) * (bearing/hectares)) if bearing and hectares and fert_percent > 0 else 0
-	if fert_application == "Non-bearing":
-		fert_percent = st.number_input("Percent of non bearing trees to be applied with fertilizers?", min_value=0.00, max_value = 100.00, step=10.00)
-		fert_kg = st.number_input("How many kilograms of fertilizers will be used for the non bearing trees?", min_value=0.00, step=10.00)
-		fert_costperkg = st.number_input("Cost per kilogram of fertilizers?", min_value=0.00, step=10.00)
-		fert_cost = (fert_kg * fert_costperkg) / ((fert_percent/100) * (non_bearing/hectares)) if non_bearing and hectares and fert_percent > 0 else 0
-	if fert_application == "Both":
-		fert_percent = st.number_input("Percent of total trees to be applied with fertilizers?", min_value=0.00, max_value = 100.00, step=10.00)
-		fert_kg = st.number_input("How many kilograms of fertilizers will be used?", min_value=0.00, step=10.00)
-		fert_costperkg = st.number_input("Cost per kilogram of fertilizers?", min_value=0.00, step=10.00)
-		fert_cost = (fert_kg * fert_costperkg) / ((fert_percent/100)* tree_perhectare) if tree_perhectare and fert_percent > 0 else 0
-else:
-	fert_cost = 0
-st.subheader("Herbicides")
-herb_apply = st.radio("Will you apply herbicides?",
-					  ("Yes", "No"))
-if herb_apply == "Yes":
-	herb_application = st.radio("To which coffee trees will you apply herbicides?",
-                            ("Bearing", "Non-bearing", "Both"))
-	if herb_application == "Bearing":
-		herb_percent = st.number_input("Percent of bearing trees to be applied with herbicides?", min_value=0.00, max_value = 100.00, step=10.00)
-		herb_kg = st.number_input("How many kilograms of herbicides will be used for the bearing trees?", min_value=0.00, step=10.00)
-		herb_costperkg = st.number_input("Cost per kilogram of herbicides?", min_value=0.00, step=10.00)
-		herb_cost = (herb_kg * herb_costperkg) / ((herb_percent/100) * (bearing/hectares)) if bearing and hectares and herb_percent > 0 else 0
-	if herb_application == "Non-bearing":
-		herb_percent = st.number_input("Percent of non bearing trees to be applied with herbicides?", min_value=0.00, max_value = 100.00, step=10.00)
-		herb_kg = st.number_input("How many kilograms of herbicides will be used for the non bearing trees?", min_value=0.00, step=10.00)
-		herb_costperkg = st.number_input("Cost per kilogram of herbicides?", min_value=0.00, step=10.00)
-		herb_cost = (herb_kg * herb_costperkg) / ((herb_percent/100) * (non_bearing/hectares)) if non_bearing and hectares and herb_percent > 0 else 0
-	if herb_application == "Both":
-		herb_percent = st.number_input("Percent of total trees to be applied with herbicides?", min_value=0.00, max_value = 100.00, step=10.00)
-		herb_kg = st.number_input("How many kilograms of herbicides will be used?", min_value=0.00, step=10.00)
-		herb_costperkg = st.number_input("Cost per kilogram of herbicides?", min_value=0.00, step=10.00)
-		herb_cost = (herb_kg * herb_costperkg) / ((herb_percent/100) * tree_perhectare) if tree_perhectare and herb_percent > 0 else 0
-else:
-	herb_cost = 0
-st.subheader("Pesticides")
-pest_apply = st.radio("Will you apply pesticides?",
-					  ("Yes", "No"))
-if pest_apply == "Yes":
-	pest_application = st.radio("To which coffee trees will you apply pesticides?",
-                            ("Bearing", "Non-bearing", "Both"))
-	if pest_application == "Bearing":
-		pest_percent = st.number_input("Percent of bearing trees to be applied with pesticides?", min_value=0.00, max_value = 100.00, step=10.00)
-		pest_kg = st.number_input("How many kilograms of pesticides will be used for the bearing trees?", min_value=0.00, step=10.00)
-		pest_costperkg = st.number_input("Cost per kilogram of pesticides?", min_value=0.00, step=10.00)
-		pest_cost = (pest_kg * pest_costperkg) / ((pest_percent/100) * (bearing/hectares)) if bearing and hectares and pest_percent > 0 else 0
-	if pest_application == "Non-bearing":
-		pest_percent = st.number_input("Percent of non bearing trees to be applied with pesticides?", min_value=0.00, max_value = 100.00, step=10.00)
-		pest_kg = st.number_input("How many kilograms of pesticides will be used for the non bearing trees?", min_value=0.00, step=10.00)
-		pest_costperkg = st.number_input("Cost per kilogram of pesticides?", min_value=0.00, step=10.00)
-		pest_cost = (pest_kg * pest_costperkg) / ((pest_percent/100) * (non_bearing/hectares)) if non_bearing and hectares and pest_percent > 0 else 0
-	if pest_application == "Both":
-		pest_percent = st.number_input("Percent of total trees to be applied with pesticides?", min_value=0.00, max_value = 100.00, step=10.00)
-		pest_kg = st.number_input("How many kilograms of pesticides will be used?", min_value=0.00, step=10.00)
-		pest_costperkg = st.number_input("Cost per kilogram of pesticides?", min_value=0.00, step=10.00)
-		pest_cost = (pest_kg * pest_costperkg) / ((pest_percent/100) * tree_perhectare) if tree_perhectare and pest_percent > 0 else 0
-else:
-	pest_cost = 0
 
-st.header("Labor Costs:")
-st.subheader("Harvesting")
-harvesting_labor_yesno = st.radio("Did you incur any labor costs for Harvesting?:", ("Yes", "No"))
-if harvesting_labor_yesno == "Yes":
-	harvesting_labor_yesno = 1
-	harvesting_labor_percent = st.number_input("Percent of bearing trees that you will be harvesting?", min_value=0.00, max_value = 100.00, step=10.00)
-elif harvesting_labor_yesno == "No":
-	harvesting_labor_yesno = 0
-st.subheader("Hauling")
-hauling_labor_yesno = st.radio("Did you incur any labor costs for Hauling?:", ("Yes", "No"))
-if hauling_labor_yesno == "Yes":
-	hauling_labor_yesno = 1
-	hauling_labor_percent = st.number_input("Percent of bearing trees that you will be Hauling?", min_value=0.00, max_value = 100.00, step=10.00)
-elif hauling_labor_yesno == "No":
-	hauling_labor_yesno = 0
-st.subheader("Pruning")
-pruning_labor_yesno = st.radio("Did you incur any labor costs for Pruning?:", ("Yes", "No"))
-if pruning_labor_yesno == "Yes":
-	pruning_labor_yesno = 1
-	pruning_labor_percent_bearing = st.number_input("Percent of bearing trees to be applied with Pruning?", min_value=0.00, max_value = 100.00, step=10.00)
-	pruning_labor_percent_nonbearing = st.number_input("Percent of non-bearing trees to be applied with Pruning?", min_value=0.00, max_value = 100.00, step=10.00)
-elif pruning_labor_yesno == "No":
-	pruning_labor_yesno = 0
-st.subheader("Fertilizing")
-fertilizer_labor_yesno = st.radio("Did you incur any labor costs for Fertilizing?:", ("Yes", "No"))
-if fertilizer_labor_yesno == "Yes":
-	fertilizer_labor_yesno = 1
-	fertilizer_labor_percent_bearing = st.number_input("Percent of bearing trees to be applied with Fertilizing labor?", min_value=0.00, max_value = 100.00, step=10.00)
-	fertilizer_labor_percent_nonbearing = st.number_input("Percent of non-bearing trees to be applied with Fertilizing labor?", min_value=0.00, max_value = 100.00, step=10.00)
-elif fertilizer_labor_yesno == "No":
-	fertilizer_labor_yesno = 0
-st.subheader("Weeding")
-weeding_labor_yesno = st.radio("Did you incur any labor costs for Weeding?:", ("Yes", "No"))
-if weeding_labor_yesno == "Yes":
-	weeding_labor_yesno = 1
-	weeding_labor_percent_bearing = st.number_input("Percent of bearing trees to be applied with weeding?", min_value=0.00, max_value = 100.00, step=10.00)
-	weeding_labor_percent_nonbearing = st.number_input("Percent of non-bearing trees to be applied with weeding?", min_value=0.00, max_value = 100.00, step=10.00)
-elif weeding_labor_yesno == "No":
-	weeding_labor_yesno = 0
-st.subheader("Spraying")
-spraying_labor_yesno = st.radio("Did you incur any labor costs for Spraying?:", ("Yes", "No"))
-if spraying_labor_yesno == "Yes":
-	spraying_labor_yesno = 1
-	spraying_labor_percent_bearing = st.number_input("Percent of bearing trees to be applied with spraying?", min_value=0.00, max_value = 100.00, step=10.00)
-	spraying_labor_percent_nonbearing = st.number_input("Percent of non bearing trees to be applied with spraying?", min_value=0.00, max_value = 100.00, step=10.00)
-elif spraying_labor_yesno == "No":
-	spraying_labor_yesno = 0
-st.subheader("Rejuvenation")
-rejuvenation_labor_yesno = st.radio("Did you incur any labor costs for Rejuvenation?:", ("Yes", "No"))
-if rejuvenation_labor_yesno == "Yes":
-	rejuvenation_labor_yesno = 1
-	rejuvenation_labor_percent_bearing = st.number_input("Percent of bearing trees to be applied with rejuvenation?", min_value=0.00, max_value = 100.00, step=10.00)
-	rejuvenation_labor_percent_nonbearing = st.number_input("Percent of non bearing trees to be applied with rejuvenation?", min_value=0.00, max_value = 100.00, step=10.00)
-elif rejuvenation_labor_yesno == "No":
-	rejuvenation_labor_yesno = 0
+maincol1, maincol2 = st.columns(2)
+with maincol1:
+	st.subheader("Farm Production Costs")
+	tab1, tab2, tab3, tab4 = st.tabs(["Supply Costs", "Labor Costs", "Post Production Costs", "Other Cost"])
+	
+	with tab1:
+		#st.subheader("FERTILIZERS")
+		fert_cost = 0
+		fert_apply = st.radio("Will you apply fertilizers?", ("Yes", "No"))
+		if fert_apply == "Yes":
+			fert_application = st.radio("To which coffee trees will you apply fertilizers?", ("Bearing", "Non-bearing", "Both"))
+			if fert_application == "Bearing":
+				fert_percent = st.number_input("Percent of bearing trees to be applied with fertilizers?", min_value=0.00, max_value = 100.00, step=10.00)
+				fert_kg = st.number_input("How many kilograms of fertilizers will be used for the bearing trees?", min_value=0.00, step=10.00)
+				fert_costperkg = st.number_input("Cost per kilogram of fertilizers?", min_value=0.00, step=10.00)
+				fert_cost = (fert_kg * fert_costperkg) / ((fert_percent/100) * (bearing/hectares)) if bearing and hectares and fert_percent > 0 else 0
+			elif fert_application == "Non-bearing":
+				fert_percent = st.number_input("Percent of non bearing trees to be applied with fertilizers?", min_value=0.00, max_value = 100.00, step=10.00)
+				fert_kg = st.number_input("How many kilograms of fertilizers will be used for the non bearing trees?", min_value=0.00, step=10.00)
+				fert_costperkg = st.number_input("Cost per kilogram of fertilizers?", min_value=0.00, step=10.00)
+				fert_cost = (fert_kg * fert_costperkg) / ((fert_percent/100) * (non_bearing/hectares)) if non_bearing and hectares and fert_percent > 0 else 0
+			elif fert_application == "Both":
+				fert_percent = st.number_input("Percent of total trees to be applied with fertilizers?", min_value=0.00, max_value = 100.00, step=10.00) 
+				fert_kg = st.number_input("How many kilograms of fertilizers will be used?", min_value=0.00, step=10.00)
+				fert_costperkg = st.number_input("Cost per kilogram of fertilizers?", min_value=0.00, step=10.00)
+				fert_cost = (fert_kg * fert_costperkg) / ((fert_percent/100)* tree_perhectare) if tree_perhectare and fert_percent > 0 else 0
+		
+		st.write("---")
+		#st.subheader("HERBICIDES")
+		herb_cost = 0
+		herb_apply = st.radio("Will you apply herbicides?", ("Yes", "No"))
+		if herb_apply == "Yes":
+			herb_application = st.radio("To which coffee trees will you apply herbicides?", ("Bearing", "Non-bearing", "Both"))
+			if herb_application == "Bearing":
+				herb_percent = st.number_input("Percent of bearing trees to be applied with herbicides?", min_value=0.00, max_value = 100.00, step=10.00)
+				herb_kg = st.number_input("How many kilograms of herbicides will be used for the bearing trees?", min_value=0.00, step=10.00)
+				herb_costperkg = st.number_input("Cost per kilogram of herbicides?", min_value=0.00, step=10.00)
+				herb_cost = (herb_kg * herb_costperkg) / ((herb_percent/100) * (bearing/hectares)) if bearing and hectares and herb_percent > 0 else 0
+			elif herb_application == "Non-bearing":
+				herb_percent = st.number_input("Percent of non bearing trees to be applied with herbicides?", min_value=0.00, max_value = 100.00, step=10.00)
+				herb_kg = st.number_input("How many kilograms of herbicides will be used for the non bearing trees?", min_value=0.00, step=10.00)
+				herb_costperkg = st.number_input("Cost per kilogram of herbicides?", min_value=0.00, step=10.00)
+				herb_cost = (herb_kg * herb_costperkg) / ((herb_percent/100) * (non_bearing/hectares)) if non_bearing and hectares and herb_percent > 0 else 0
+			elif herb_application == "Both":
+				herb_percent = st.number_input("Percent of total trees to be applied with herbicides?", min_value=0.00, max_value = 100.00, step=10.00)
+				herb_kg = st.number_input("How many kilograms of herbicides will be used?", min_value=0.00, step=10.00)
+				herb_costperkg = st.number_input("Cost per kilogram of herbicides?", min_value=0.00, step=10.00)
+				herb_cost = (herb_kg * herb_costperkg) / ((herb_percent/100) * tree_perhectare) if tree_perhectare and herb_percent > 0 else 0
 
-st.header("Post Production Cost:")
-transpo_postprod_yesno = st.radio("Did you incur any costs for Transportation?:", ("Yes", "No"))
-if transpo_postprod_yesno == "Yes":
-	transpo_postprod_yesno = 1
-elif transpo_postprod_yesno == "No":
-	transpo_postprod_yesno = 0
+		st.write("---")
+		#st.subheader("PESTICIDES")
+		pest_code = 0
+		pest_apply = st.radio("Will you apply pesticides?", ("Yes", "No"))
+		if pest_apply == "Yes":
+			pest_application = st.radio("To which coffee trees will you apply pesticides?", ("Bearing", "Non-bearing", "Both"))
+			if pest_application == "Bearing":
+				pest_percent = st.number_input("Percent of bearing trees to be applied with pesticides?", min_value=0.00, max_value = 100.00, step=10.00)
+				pest_kg = st.number_input("How many kilograms of pesticides will be used for the bearing trees?", min_value=0.00, step=10.00)
+				pest_costperkg = st.number_input("Cost per kilogram of pesticides?", min_value=0.00, step=10.00)
+				pest_cost = (pest_kg * pest_costperkg) / ((pest_percent/100) * (bearing/hectares)) if bearing and hectares and pest_percent > 0 else 0
+			elif pest_application == "Non-bearing":
+				pest_percent = st.number_input("Percent of non bearing trees to be applied with pesticides?", min_value=0.00, max_value = 100.00, step=10.00)
+				pest_kg = st.number_input("How many kilograms of pesticides will be used for the non bearing trees?", min_value=0.00, step=10.00)
+				pest_costperkg = st.number_input("Cost per kilogram of pesticides?", min_value=0.00, step=10.00)
+				pest_cost = (pest_kg * pest_costperkg) / ((pest_percent/100) * (non_bearing/hectares)) if non_bearing and hectares and pest_percent > 0 else 0
+			elif pest_application == "Both":
+				pest_percent = st.number_input("Percent of total trees to be applied with pesticides?", min_value=0.00, max_value = 100.00, step=10.00)
+				pest_kg = st.number_input("How many kilograms of pesticides will be used?", min_value=0.00, step=10.00)
+				pest_costperkg = st.number_input("Cost per kilogram of pesticides?", min_value=0.00, step=10.00)
+				pest_cost = (pest_kg * pest_costperkg) / ((pest_percent/100) * tree_perhectare) if tree_perhectare and pest_percent > 0 else 0
+	
+	with tab2:
+		#st.subheader("Labor Cost - Harvesting")
+		harvesting_labor_percent = 0
+		hauling_labor_percent = 0
+		pruning_labor_percent_bearing = 0
+		pruning_labor_percent_nonbearing = 0
+		fertilizer_labor_percent_bearing = 0
+		fertilizer_labor_percent_nonbearing = 0
+		weeding_labor_percent_bearing = 0
+		weeding_labor_percent_nonbearing = 0
+		spraying_labor_percent_bearing = 0
+		spraying_labor_percent_nonbearing = 0
+		rejuvenation_labor_percent_bearing = 0
+		rejuvenation_labor_percent_nonbearing = 0
 
-if coffee_type == "Dried Coffee Beans" or coffee_type == "Fresh and Dried Coffee Beans":
-	drying_postprod_yesno = st.radio("Did you incur any costs for Drying:", ("Yes", "No"))
-	if drying_postprod_yesno == "Yes":
-		drying_postprod_yesno = 1
-	elif drying_postprod_yesno == "No":
-		drying_postprod_yesno = 0
+		harvesting_labor_yesno = st.radio("Did you incur any labor costs for Harvesting?:", ("Yes", "No"))
+		if harvesting_labor_yesno == "Yes":
+			harvesting_labor_yesno = 1
+			harvesting_labor_percent = st.number_input("Percent of bearing trees that you will be harvesting?", min_value=0.00, max_value = 100.00, step=10.00)
+		elif harvesting_labor_yesno == "No":
+			harvesting_labor_yesno = 0
+		
+		st.write("---")
+		#st.subheader("Labor Cost - Hauling")
+		hauling_labor_yesno = st.radio("Did you incur any labor costs for Hauling?:", ("Yes", "No"))
+		if hauling_labor_yesno == "Yes":
+			hauling_labor_yesno = 1
+			hauling_labor_percent = st.number_input("Percent of bearing trees that you will be Hauling?", min_value=0.00, max_value = 100.00, step=10.00)
+		elif hauling_labor_yesno == "No":
+			hauling_labor_yesno = 0
+		
+		st.write("---")
+		#st.subheader("Labor Cost - Pruning")
+		pruning_labor_yesno = st.radio("Did you incur any labor costs for Pruning?:", ("Yes", "No"))
+		if pruning_labor_yesno == "Yes":
+			pruning_labor_yesno = 1
+			pruning_labor_percent_bearing = st.number_input("Percent of bearing trees to be applied with Pruning?", min_value=0.00, max_value = 100.00, step=10.00)
+			pruning_labor_percent_nonbearing = st.number_input("Percent of non-bearing trees to be applied with Pruning?", min_value=0.00, max_value = 100.00, step=10.00)
+		elif pruning_labor_yesno == "No":
+			pruning_labor_yesno = 0
 
-elif coffee_type == "Green Coffee Beans" or coffee_type == "Fresh and Green Coffee Beans" or coffee_type == "Dried and Green Coffee Beans" or coffee_type == "All":
-	drying_postprod_yesno = st.radio("Did you incur any costs for Drying:", ("Yes", "No"), key="drying_postprod_yesno")
-	if drying_postprod_yesno == "Yes":
-		drying_postprod_yesno = 1
-	elif drying_postprod_yesno == "No":
-		drying_postprod_yesno = 0
+		st.write("---")
+		#st.subheader("Labor Cost - Fertilizing")
+		fertilizer_labor_yesno = st.radio("Did you incur any labor costs for Fertilizing?:", ("Yes", "No"))
+		if fertilizer_labor_yesno == "Yes":
+			fertilizer_labor_yesno = 1
+			fertilizer_labor_percent_bearing = st.number_input("Percent of bearing trees to be applied with Fertilizing labor?", min_value=0.00, max_value = 100.00, step=10.00)
+			fertilizer_labor_percent_nonbearing = st.number_input("Percent of non-bearing trees to be applied with Fertilizing labor?", min_value=0.00, max_value = 100.00, step=10.00)
+		elif fertilizer_labor_yesno == "No":
+			fertilizer_labor_yesno = 0
 
-	dehulling_postprod_yesno = st.radio("Did you incur any costs for Dehulling:", ("Yes", "No"))
-	if dehulling_postprod_yesno == "Yes":
-		dehulling_postprod_yesno = 1
-	elif dehulling_postprod_yesno == "No":
-		dehulling_postprod_yesno = 0
+		st.write("---")
+		#st.subheader("Labor Cost - Weeding")
+		weeding_labor_yesno = st.radio("Did you incur any labor costs for Weeding?:", ("Yes", "No"))
+		if weeding_labor_yesno == "Yes":
+			weeding_labor_yesno = 1
+			weeding_labor_percent_bearing = st.number_input("Percent of bearing trees to be applied with weeding?", min_value=0.00, max_value = 100.00, step=10.00)
+			weeding_labor_percent_nonbearing = st.number_input("Percent of non-bearing trees to be applied with weeding?", min_value=0.00, max_value = 100.00, step=10.00)
+		elif weeding_labor_yesno == "No":
+			weeding_labor_yesno = 0
 
-	sorting_postprod_yesno = st.radio("Did you incur any costs for Sorting:", ("Yes", "No"))
-	if sorting_postprod_yesno == "Yes":
-		sorting_postprod_yesno = 1
-	elif sorting_postprod_yesno == "No":
-		sorting_postprod_yesno = 0
+		st.write("---")
+		#st.subheader("Labor Cost - Spraying")
+		spraying_labor_yesno = st.radio("Did you incur any labor costs for Spraying?:", ("Yes", "No"))
+		if spraying_labor_yesno == "Yes":
+			spraying_labor_yesno = 1
+			spraying_labor_percent_bearing = st.number_input("Percent of bearing trees to be applied with spraying?", min_value=0.00, max_value = 100.00, step=10.00)
+			spraying_labor_percent_nonbearing = st.number_input("Percent of non bearing trees to be applied with spraying?", min_value=0.00, max_value = 100.00, step=10.00)
+		elif spraying_labor_yesno == "No":
+			spraying_labor_yesno = 0
 
-	depulping_postprod_yesno = st.radio("Did you incur any costs for Depulping:", ("Yes", "No"))
-	if depulping_postprod_yesno == "Yes":
-		depulping_postprod_yesno = 1
-	elif depulping_postprod_yesno == "No":
-		depulping_postprod_yesno = 0
+		st.write("---")
+		#st.subheader("Labor Cost - Rejuvenation")
+		rejuvenation_labor_yesno = st.radio("Did you incur any labor costs for Rejuvenation?:", ("Yes", "No"))
+		if rejuvenation_labor_yesno == "Yes":
+			rejuvenation_labor_yesno = 1
+			rejuvenation_labor_percent_bearing = st.number_input("Percent of bearing trees to be applied with rejuvenation?", min_value=0.00, max_value = 100.00, step=10.00)
+			rejuvenation_labor_percent_nonbearing = st.number_input("Percent of non bearing trees to be applied with rejuvenation?", min_value=0.00, max_value = 100.00, step=10.00)
+		elif rejuvenation_labor_yesno == "No":
+			rejuvenation_labor_yesno = 0
+    
+	with tab3:
+		transpo_postprod_yesno = st.radio("Did you incur any costs for Transportation?:", ("Yes", "No"))
+		if transpo_postprod_yesno == "Yes":
+			transpo_postprod_yesno = 1
+		elif transpo_postprod_yesno == "No":
+			transpo_postprod_yesno = 0
+		
+		if "Dried Coffee Beans" in coffee_types: #coffee_type == "Dried Coffee Beans" or coffee_type == "Fresh and Dried Coffee Beans":
+			drying_postprod_yesno = st.radio("Did you incur any costs for Drying:", ("Yes", "No"))
+			if drying_postprod_yesno == "Yes":
+				drying_postprod_yesno = 1
+			elif drying_postprod_yesno == "No":
+				drying_postprod_yesno = 0
+        
+		if "Green Coffee Beans" in coffee_types: #"coffee_type == "Green Coffee Beans" or coffee_type == "Fresh and Green Coffee Beans" or coffee_type == "Dried and Green Coffee Beans" or coffee_type == "All":
+			dehulling_postprod_yesno = st.radio("Did you incur any costs for Dehulling:", ("Yes", "No"))
+			if dehulling_postprod_yesno == "Yes":
+				dehulling_postprod_yesno = 1
+			elif dehulling_postprod_yesno == "No":
+				dehulling_postprod_yesno = 0
+			
+			sorting_postprod_yesno = st.radio("Did you incur any costs for Sorting:", ("Yes", "No"))
+			if sorting_postprod_yesno == "Yes":
+				sorting_postprod_yesno = 1
+			elif sorting_postprod_yesno == "No":
+				sorting_postprod_yesno = 0
+            
+			depulping_postprod_yesno = st.radio("Did you incur any costs for Depulping:", ("Yes", "No"))
+			if depulping_postprod_yesno == "Yes":
+				depulping_postprod_yesno = 1
+			elif depulping_postprod_yesno == "No":
+				depulping_postprod_yesno = 0
+    
+	with tab4:
+		other_cost = st.number_input(label="Enter total cost for unaccounted production items: ", min_value=0.00, step=10.00)
+		other_cost_perhectare = (other_cost/hectares) if hectares > 0 else 0
 
-st.header("Other Costs:")
-other_cost = st.number_input(label="Enter the amount you spent for other costs: ", min_value=0.00, step=100.00)
-other_cost_perhectare = (
-	other_cost/hectares
-)if hectares > 0 else 0
+
 
 def calculate():
     input_cost_perhectare = (fert_cost + herb_cost + pest_cost)
+    lb_labor_cost = 0
+    m_labor_cost = 0
+    ub_labor_cost = 0
+    lb_postproduction_cost = 0
+    m_postproduction_cost = 0
+    ub_postproduction_cost = 0
+    total_lb_bound_cost = 0
+    total_m_bound_cost = 0
+    total_ub_bound_cost = 0
 	
     lb_labor_cost = (
 		lb_harvesting * harvesting_labor_yesno * ((harvesting_labor_percent/100) * (bearing/hectares)) +
@@ -470,12 +515,18 @@ def calculate():
 		ub_rejuvenation * rejuvenation_labor_yesno * (((rejuvenation_labor_percent_bearing/100) + (rejuvenation_labor_percent_nonbearing/100)) * tree_perhectare)
     )if bearing and hectares > 0 else 0
 	
-    if coffee_type == "Fresh Cherries":
+    if "Fresh Cherries" in coffee_types and len(coffee_types) == 1: #coffee_type == "Fresh Cherries":
         lb_postproduction_cost = (
 			lb_transport * tree_perhectare * transpo_postprod_yesno
         )
+        m_postproduction_cost = (
+			m_transport * tree_perhectare * transpo_postprod_yesno
+        )
+        ub_postproduction_cost = (
+			ub_transport * tree_perhectare * transpo_postprod_yesno
+        )
 		
-    if coffee_type == "Dried Coffee Beans" or "Fresh and Dried Coffee Beans":
+    elif "Dried Coffee Beans" in coffee_types and len(coffee_types) == 1 or "Dried Coffee Beans" in coffee_types and "Fresh Cherries" in coffee_types and len(coffee_types) == 2: #coffee_type == "Dried Coffee Beans" or "Fresh and Dried Coffee Beans":
         lb_postproduction_cost = (
 			lb_transport * tree_perhectare * transpo_postprod_yesno +
 			lb_drying * (bearing/hectares) * drying_postprod_yesno
@@ -491,7 +542,7 @@ def calculate():
 			ub_drying * (bearing/hectares) * drying_postprod_yesno
         )if bearing and hectares > 0 else 0
 		
-    if coffee_type == "Green Coffee Beans" or "Freshh and Green Coffee Beans" or "Dried and Green Coffee Beans" or "All":
+    elif "Green Coffee Beans" in coffee_types: #coffee_type == "Green Coffee Beans" or "Freshh and Green Coffee Beans" or "Dried and Green Coffee Beans" or "All":
         lb_postproduction_cost = (
 			lb_transport * tree_perhectare * transpo_postprod_yesno +
 			lb_drying * (bearing/hectares) * drying_postprod_yesno +
@@ -530,24 +581,25 @@ def calculate():
 	
     return input_cost_perhectare, lb_labor_cost, m_labor_cost, ub_labor_cost, lb_postproduction_cost, m_postproduction_cost, ub_postproduction_cost, total_lb_bound_cost, total_m_bound_cost, total_ub_bound_cost
 
-if st.button("Calculate"):
-    input_cost_perhectare, lb_labor_cost, m_labor_cost, ub_labor_cost, lb_postproduction_cost, m_postproduction_cost, ub_postproduction_cost, total_lb_bound_cost, total_m_bound_cost, total_ub_bound_cost = calculate()
-    st.write(f"Input Cost per hectare: ₱{input_cost_perhectare:.2f}")
-    st.write(f"\n")
+
+
+with maincol2:
+	if st.button("Compute Production Costs"):
+		input_cost_perhectare, lb_labor_cost, m_labor_cost, ub_labor_cost, lb_postproduction_cost, m_postproduction_cost, ub_postproduction_cost, total_lb_bound_cost, total_m_bound_cost, total_ub_bound_cost = calculate()
 		
-    st.write(f"Lower Bound Labor Cost per hectare: ₱{lb_labor_cost:.2f}")
-    st.write(f"Median Labor Cost per hectare: ₱{m_labor_cost:.2f}")
-    st.write(f"Upper Bound Labor Cost per hectare: ₱{ub_labor_cost:.2f}")
-    st.write(f"\n")
+		st.write("---")
+		
 
-    st.write(f"Lower Bound Post Production Cost per hectare: ₱{lb_postproduction_cost:.2f}")
-    st.write(f"Median Post Production Cost per hectare: ₱{m_postproduction_cost:.2f}")
-    st.write(f"Upper Bound Post Production Cost per hectare: ₱{ub_postproduction_cost:.2f}")
-    st.write(f"\n")
+		st.markdown(f"<h4>INPUT COST PER HECTARE: ₱{input_cost_perhectare:.2f}</h4>", unsafe_allow_html=True)
+		st.write(f"\n")
+		
+		st.markdown(f"<h4>LABOR COST PER HECTARE: ₱{lb_labor_cost:.2f} to ₱{ub_labor_cost:.2f}</h4>", unsafe_allow_html=True)
+		st.write(f"\n")
+		
+		st.markdown(f"<h4>POST PRODUCTION COST PER HECTARE: ₱{lb_postproduction_cost:.2f} to ₱{ub_postproduction_cost:.2f}</h4>", unsafe_allow_html=True)
+		st.write(f"\n")
 
-    st.write(f"Other Costs per hectare: ₱{other_cost_perhectare:.2f}")
-    st.write(f"\n")
-	
-    st.markdown(f"<b>Lower Bound Cost per hectare: ₱{total_lb_bound_cost:.2f}</b>", unsafe_allow_html=True)
-    st.markdown(f"<b>Median Cost per hectare: ₱{total_m_bound_cost:.2f}</b>", unsafe_allow_html=True)
-    st.markdown(f"<b>Upper Total Cost per hectare: ₱{total_ub_bound_cost:.2f}</b>", unsafe_allow_html=True)
+		st.markdown(f"<h4>OTHER COST PER HECTARE: ₱{other_cost_perhectare:.2f}</h4>", unsafe_allow_html=True)
+		st.write(f"\n")
+		
+		st.markdown(f"<h4>OVERALL COST PER HECTARE: ₱{total_lb_bound_cost:.2f} to ₱{total_ub_bound_cost:.2f}</h4>", unsafe_allow_html=True)
