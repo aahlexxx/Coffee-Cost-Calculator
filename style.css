@@ -70,6 +70,6 @@ div[data-baseweb="tab-panel"] > div:first-of-type {
     overflow-y: auto;
 }
 
-div.st-emotion-cache-1hdbmx1.e116k4er3 {
+div[data-testid="stNumberInput"] > div:first-of-type {
     width: 50%;
 }
