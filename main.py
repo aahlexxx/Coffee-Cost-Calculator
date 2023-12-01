@@ -196,44 +196,44 @@ elif dataset == "General - Excelsa":
     ub_harvesting = 12
 
 elif dataset == "Mahintana - Robusta":
-    lb_transport = 0.56
-    lb_drying = 0.375
-    lb_dehulling = 0.8
+    lb_transport = 0.69
+    lb_drying = 0.4
+    lb_dehulling = 0.91
     lb_sorting = 0.00
     lb_depulping = 0.00
 
     lb_hauling = 0.00
-    lb_pruning = 1.00
-    lb_fertilizing = 1.00
-    lb_weeding = 1.23
+    lb_pruning = 0.84
+    lb_fertilizing = 0.69
+    lb_weeding = 1.29
     lb_spraying = 0.00
     lb_rejuvenation = 0.00
-    lb_harvesting = 1.78
+    lb_harvesting = 2.26
 
-    m_transport = 1.11
-    m_drying = 0.67
-    m_dehulling = 1.34
+    m_transport = 1.25
+    m_drying = 0.70
+    m_dehulling = 1.35
     m_sorting = 0.00
     m_depulping = 0.00
 
     m_hauling = 0.00
-    m_pruning = 1.67
-    m_fertilizing = 2.4
-    m_weeding = 2.27
+    m_pruning = 1.5
+    m_fertilizing = 1.6
+    m_weeding = 2.14
     m_spraying = 0.00
     m_rejuvenation = 0.00
-    m_harvesting = 3.5
+    m_harvesting = 4.12
 
     ub_transport = 2.00
-    ub_drying = 1.25
-    ub_dehulling = 1.71
+    ub_drying = 1.27
+    ub_dehulling = 1.67
     ub_sorting = 0.00
     ub_depulping = 0.00
 
     ub_hauling = 0.00
-    ub_pruning = 3.00
-    ub_fertilizing = 6.23
-    ub_weeding = 4.52
+    ub_pruning = 2.50
+    ub_fertilizing = 4.7
+    ub_weeding = 3.63
     ub_spraying = 0.00
     ub_rejuvenation = 0.00
     ub_harvesting =6.00
